@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 
-function useTone(playing = false, type = 'square', frequency = 440, gain = 10) {
+function useTone(playing, type = 'square', frequency = 440, gain = 10) {
   const gainNode = React.useRef(null);
   const osc = React.useRef(null);
   const audioContext = React.useRef(null);
@@ -45,6 +45,18 @@ function useTone(playing = false, type = 'square', frequency = 440, gain = 10) {
   );
 }
 
+interface ToneProps {
+  play: boolean;
+  pitch?: number;
+  type?: string;
+  gain?: number;
+}
+
+function Tone(props): React.SFC<ToneProps> {
+  useTone(props.play, props.type, props.pitch, props.gain);
+  return null;
+}
+
 const App = () => {
   const [pitch, setPitch] = React.useState(440);
   const [gain, setGain] = React.useState(0.5);
@@ -52,9 +64,7 @@ const App = () => {
   const [voice1Playing, setVoice1Playing] = React.useState(false);
   const [voice2Playing, setVoice2Playing] = React.useState(false);
   const [voice3Playing, setVoice3Playing] = React.useState(false);
-  useTone(allPlaying || voice1Playing, 'sine', pitch, gain);
-  useTone(allPlaying || voice2Playing, 'square', pitch * 1.5, gain);
-  useTone(allPlaying || voice3Playing, 'sawtooth', pitch * 0.75, gain);
+
   return (
     <div>
       <input
@@ -63,6 +73,24 @@ const App = () => {
         max="1500"
         value={pitch}
         onChange={e => setPitch(e.target.value)}
+      />
+      <Tone
+        play={allPlaying || voice1Playing}
+        type="sine"
+        pitch={pitch}
+        gain={gain}
+      />
+      <Tone
+        play={allPlaying || voice2Playing}
+        type="square"
+        pitch={pitch * 1.5}
+        gain={gain}
+      />
+      <Tone
+        play={allPlaying || voice3Playing}
+        type="sawtooth"
+        pitch={pitch * 0.75}
+        gain={gain}
       />
       <button onClick={() => setVoice1Playing(!voice1Playing)}>
         Play/Pause
