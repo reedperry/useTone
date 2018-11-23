@@ -2,6 +2,7 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import './App.css';
 import useTone, { ToneType } from './useTone';
+import useKeyPress from './useKeyPress';
 
 interface ToneProps {
   play: boolean;
@@ -56,12 +57,17 @@ const App = () => {
   const [voice2Playing, setVoice2Playing] = React.useState(false);
   const [voice3Playing, setVoice3Playing] = React.useState(false);
   const [voice4Playing, setVoice4Playing] = React.useState(false);
+  
+  const pressingA = useKeyPress('a');
+  const pressingS = useKeyPress('s');
+  const pressingD = useKeyPress('d');
+  const pressingF = useKeyPress('f');
 
   const tones: ToneProps = [
-    { playing: voice1Playing, type: 'square', pitch, gain },
-    { playing: voice2Playing, type: 'sawtooth', pitch: pitch * 1.667, gain },
-    { playing: voice3Playing, type: 'triangle', pitch: pitch * 1.333, gain },
-    { playing: voice4Playing, type: 'square', pitch: pitch * 0.667, gain }
+    { playing: voice1Playing || pressingA, type: 'square', pitch, gain, id: 1 },
+    { playing: voice2Playing || pressingS, type: 'square', pitch: pitch * 1.667, gain, id: 2 },
+    { playing: voice3Playing || pressingD, type: 'sawtooth', pitch: pitch * 1.333, gain, id: 3 },
+    { playing: voice4Playing || pressingF, type: 'square', pitch: pitch * 0.667, gain, id: 4 }
   ];
 
   return (
@@ -75,6 +81,7 @@ const App = () => {
       />
       {tones.map(tone => (
         <Tone
+          key={tone.id}
           play={allPlaying || tone.playing}
           type={tone.type}
           pitch={tone.pitch}
@@ -100,6 +107,13 @@ const App = () => {
           <label>Gain: </label>
           <span>{gain}</span>
         </div>
+      </div>
+      <div style={{marginTop: 40}}>
+        <div>Keys Pressed</h4>
+        {pressingA && <div>A</div>}
+        {pressingS && <div>S</div>}
+        {pressingD && <div>D</div>}
+        {pressingF && <div>F</div>}
       </div>
     </div>
   );
