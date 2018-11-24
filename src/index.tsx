@@ -1,8 +1,8 @@
-import * as React from 'react';
-import { render } from 'react-dom';
-import './App.css';
-import useTone, { ToneType } from './useTone';
-import useKeyPress from './useKeyPress';
+import * as React from "react";
+import { render } from "react-dom";
+import "./App.css";
+import useTone, { ToneType } from "./useTone";
+import useKeyPress from "./useKeyPress";
 
 interface ToneProps {
   play: boolean;
@@ -15,65 +15,126 @@ function Tone(props): React.SFC<ToneProps> {
   useTone(props.play, props.type, props.pitch, props.gain);
   return null;
 }
-  
+
 interface PlayButtonProps {
   playing: boolean;
-  setPlaying: (playing: boolean): void;
+  setPlaying: (playing: boolean) => void;
 }
 
 function PlayButton(props): React.SFC<PlayButtonProps> {
   return (
     <button
-      className={`play-button${props.playing ? ' on' : ''}`}
-      onClick={() => props.setPlaying(!props.playing)}>
-      {props.children || 'Play/Pause'}{props.keyName && ` (${props.keyName})`}
+      className={`play-button${props.playing ? " on" : ""}`}
+      onClick={() => props.setPlaying(!props.playing)}
+    >
+      {props.children || "Play/Pause"}
+      {props.keyName && ` (${props.keyName})`}
     </button>
   );
 }
-  
+
 interface VolumeControlProps {
   volume: number;
   setVolume: (volume: number) => void;
 }
-  
+
 function VolumeControl(props): React.SFC<VolumeControlProps> {
   return (
-        <input
-          type="range"
-          style={{ transform: 'rotateZ(-90deg)' }}
-          min="0"
-          max="0.5"
-          step="0.01"
-          value={props.volume}
-          onChange={e => props.setVolume(e.target.value)}
-        />);
+    <input
+      type="range"
+      style={{ transform: "rotateZ(-90deg)" }}
+      min="0"
+      max="0.5"
+      step="0.01"
+      value={props.volume}
+      onChange={e => props.setVolume(e.target.value)}
+    />
+  );
 }
+
+function playStateReducer(state, action) {
+  if (action.isPlaying === true) {
+    return {
+      ...state,
+      [action.key]: true
+    };
+  } else if (action.isPlaying === false) {
+    return {
+      ...state,
+      [action.key]: false
+    };
+  }
+  return state;
+}
+
+const initialPlayingState = {
+  all: false,
+  v1: false,
+  v2: false,
+  v3: false,
+  v4: false,
+  v5: false,
+  v6: false
+};
 
 const App = () => {
   const [pitch, setPitch] = React.useState(200);
-  const [gain, setGain] = React.useState(0.5);
-  const [allPlaying, setAllPlaying] = React.useState(false);
-  const [v1Playing, setV1Playing] = React.useState(false);
-  const [v2Playing, setV2Playing] = React.useState(false);
-  const [v3Playing, setV3Playing] = React.useState(false);
-  const [v4Playing, setV4Playing] = React.useState(false);
-  const [v5Playing, setV5Playing] = React.useState(false);
-  const [v6Playing, setV6Playing] = React.useState(false);
-  
-  const pressingA = useKeyPress('a');
-  const pressingS = useKeyPress('s');
-  const pressingD = useKeyPress('d');
-  const pressingF = useKeyPress('f');
-  const pressingG = useKeyPress('g');
-  const pressingH = useKeyPress('h');
+  const [gain, setGain] = React.useState(0.25);
+  const [playingState, dispatch] = React.useReducer(
+    playStateReducer,
+    initialPlayingState
+  );
+
+  const pressingA = useKeyPress("a");
+  const pressingS = useKeyPress("s");
+  const pressingD = useKeyPress("d");
+  const pressingF = useKeyPress("f");
+  const pressingG = useKeyPress("g");
+  const pressingH = useKeyPress("h");
 
   const tones: ToneProps = [
-    { playing: v1Playing || pressingA, type: 'triangle', pitch: pitch * 0.5, gain, id: 1 },
-    { playing: v2Playing || pressingS, type: 'triangle', pitch: pitch * 0.667, gain, id: 2 },
-    { playing: v3Playing || pressingD, type: 'triangle', pitch, gain, id: 3 },
-    { playing: v4Playing || pressingF, type: 'square', pitch: pitch * 1.333, gain, id: 4 },
-    { playing: v5Playing || pressingG, type: 'square', pitch: pitch * 1.667, gain, id: 5 },
-    { playing: v6Playing || pressingH, type: 'square', pitch: pitch * 2, gain, id: 6 },
+    {
+      playing: playingState.v1 || pressingA,
+      type: "square",
+      pitch: pitch * 0.5,
+      gain,
+      id: 1
+    },
+    {
+      playing: playingState.v2 || pressingS,
+      type: "square",
+      pitch: pitch * 0.667,
+      gain,
+      id: 2
+    },
+    {
+      playing: playingState.v3 || pressingD,
+      type: "square",
+      pitch,
+      gain,
+      id: 3
+    },
+    {
+      playing: playingState.v4 || pressingF,
+      type: "square",
+      pitch: pitch * 1.333,
+      gain,
+      id: 4
+    },
+    {
+      playing: playingState.v5 || pressingG,
+      type: "square",
+      pitch: pitch * 1.667,
+      gain,
+      id: 5
+    },
+    {
+      playing: playingState.v6 || pressingH,
+      type: "square",
+      pitch: pitch * 2,
+      gain,
+      id: 6
+    }
   ];
 
   return (
@@ -88,23 +149,50 @@ const App = () => {
       {tones.map(tone => (
         <Tone
           key={tone.id}
-          play={allPlaying || tone.playing}
+          play={playingState.all || tone.playing}
           type={tone.type}
           pitch={tone.pitch}
           gain={tone.gain}
         />
       ))}
-      <PlayButton playing={v1Playing} setPlaying={setV1Playing} keyName="A" />
-      <PlayButton playing={v2Playing} setPlaying={setV2Playing} keyName="S" />
-      <PlayButton playing={v3Playing} setPlaying={setV3Playing} keyName="D" />
-      <PlayButton playing={v4Playing} setPlaying={setV4Playing} keyName="F" />
-      <PlayButton playing={v5Playing} setPlaying={setV5Playing} keyName="G" />
-      <PlayButton playing={v6Playing} setPlaying={setV6Playing} keyName="H" />
-      <PlayButton playing={allPlaying} setPlaying={setAllPlaying}>Play/Pause All</PlayButton>
+      <PlayButton
+        playing={playingState.v1}
+        setPlaying={isPlaying => dispatch({ key: "v1", isPlaying })}
+        keyName="A"
+      />
+      <PlayButton
+        playing={playingState.v2}
+        setPlaying={isPlaying => dispatch({ key: "v2", isPlaying })}
+        keyName="S"
+      />
+      <PlayButton
+        playing={playingState.v3}
+        setPlaying={isPlaying => dispatch({ key: "v3", isPlaying })}
+        keyName="D"
+      />
+      <PlayButton
+        playing={playingState.v4}
+        setPlaying={isPlaying => dispatch({ key: "v4", isPlaying })}
+        keyName="F"
+      />
+      <PlayButton
+        playing={playingState.v5}
+        setPlaying={isPlaying => dispatch({ key: "v5", isPlaying })}
+        keyName="G"
+      />
+      <PlayButton
+        playing={playingState.v6}
+        setPlaying={isPlaying => dispatch({ key: "v6", isPlaying })}
+        keyName="H"
+      />
+      <PlayButton
+        playing={playingState.all}
+        setPlaying={isPlaying => dispatch({ key: "all", isPlaying })}
+      >
+        Play/Pause All
+      </PlayButton>
       <div style={{ marginTop: 80 }}>
-        <VolumeControl
-          volume={gain}
-          setVolume={setGain} />
+        <VolumeControl volume={gain} setVolume={setGain} />
       </div>
       <div style={{ marginLeft: 200 }}>
         <div>
@@ -120,4 +208,4 @@ const App = () => {
   );
 };
 
-render(<App />, document.getElementById('root'));
+render(<App />, document.getElementById("root"));
