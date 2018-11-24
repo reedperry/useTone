@@ -26,7 +26,7 @@ function PlayButton(props): React.SFC<PlayButtonProps> {
     <button
       className={`play-button${props.playing ? ' on' : ''}`}
       onClick={() => props.setPlaying(!props.playing)}>
-      {props.children || 'Play/Pause'}
+      {props.children || 'Play/Pause'}{props.keyName && ` (${props.keyName})`}
     </button>
   );
 }
@@ -53,21 +53,27 @@ const App = () => {
   const [pitch, setPitch] = React.useState(200);
   const [gain, setGain] = React.useState(0.5);
   const [allPlaying, setAllPlaying] = React.useState(false);
-  const [voice1Playing, setVoice1Playing] = React.useState(false);
-  const [voice2Playing, setVoice2Playing] = React.useState(false);
-  const [voice3Playing, setVoice3Playing] = React.useState(false);
-  const [voice4Playing, setVoice4Playing] = React.useState(false);
+  const [v1Playing, setV1Playing] = React.useState(false);
+  const [v2Playing, setV2Playing] = React.useState(false);
+  const [v3Playing, setV3Playing] = React.useState(false);
+  const [v4Playing, setV4Playing] = React.useState(false);
+  const [v5Playing, setV5Playing] = React.useState(false);
+  const [v6Playing, setV6Playing] = React.useState(false);
   
   const pressingA = useKeyPress('a');
   const pressingS = useKeyPress('s');
   const pressingD = useKeyPress('d');
   const pressingF = useKeyPress('f');
+  const pressingG = useKeyPress('g');
+  const pressingH = useKeyPress('h');
 
   const tones: ToneProps = [
-    { playing: voice1Playing || pressingA, type: 'square', pitch, gain, id: 1 },
-    { playing: voice2Playing || pressingS, type: 'square', pitch: pitch * 1.667, gain, id: 2 },
-    { playing: voice3Playing || pressingD, type: 'sawtooth', pitch: pitch * 1.333, gain, id: 3 },
-    { playing: voice4Playing || pressingF, type: 'square', pitch: pitch * 0.667, gain, id: 4 }
+    { playing: v1Playing || pressingA, type: 'triangle', pitch: pitch * 0.5, gain, id: 1 },
+    { playing: v2Playing || pressingS, type: 'triangle', pitch: pitch * 0.667, gain, id: 2 },
+    { playing: v3Playing || pressingD, type: 'triangle', pitch, gain, id: 3 },
+    { playing: v4Playing || pressingF, type: 'square', pitch: pitch * 1.333, gain, id: 4 },
+    { playing: v5Playing || pressingG, type: 'square', pitch: pitch * 1.667, gain, id: 5 },
+    { playing: v6Playing || pressingH, type: 'square', pitch: pitch * 2, gain, id: 6 },
   ];
 
   return (
@@ -88,10 +94,12 @@ const App = () => {
           gain={tone.gain}
         />
       ))}
-      <PlayButton playing={voice1Playing} setPlaying={setVoice1Playing} />
-      <PlayButton playing={voice2Playing} setPlaying={setVoice2Playing} />
-      <PlayButton playing={voice3Playing} setPlaying={setVoice3Playing} />
-      <PlayButton playing={voice4Playing} setPlaying={setVoice4Playing} />
+      <PlayButton playing={v1Playing} setPlaying={setV1Playing} keyName="A" />
+      <PlayButton playing={v2Playing} setPlaying={setV2Playing} keyName="S" />
+      <PlayButton playing={v3Playing} setPlaying={setV3Playing} keyName="D" />
+      <PlayButton playing={v4Playing} setPlaying={setV4Playing} keyName="F" />
+      <PlayButton playing={v5Playing} setPlaying={setV5Playing} keyName="G" />
+      <PlayButton playing={v6Playing} setPlaying={setV6Playing} keyName="H" />
       <PlayButton playing={allPlaying} setPlaying={setAllPlaying}>Play/Pause All</PlayButton>
       <div style={{ marginTop: 80 }}>
         <VolumeControl
@@ -107,13 +115,6 @@ const App = () => {
           <label>Gain: </label>
           <span>{gain}</span>
         </div>
-      </div>
-      <div style={{marginTop: 40}}>
-        <div>Keys Pressed</h4>
-        {pressingA && <div>A</div>}
-        {pressingS && <div>S</div>}
-        {pressingD && <div>D</div>}
-        {pressingF && <div>F</div>}
       </div>
     </div>
   );
