@@ -5,14 +5,16 @@ button.play-button {
   background: #1c93dd;
   color: #fff;
   transition: all 0.1s;
-  box-shadow: 1px 1px 3px #444;
+  box-shadow: 0px 1px 3px #333;
 }
 
 button.play-button:hover {
   background: #2ca3ed;
   border-color: #2ca3ed;
+  box-shadow: 0px 2px 3px #333;
 }
 
 button.play-button.on {
   border: 2px inset #1c93dd;
+  box-shadow: none;
 }
