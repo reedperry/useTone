@@ -1,20 +1,10 @@
 import * as React from "react";
 import { render } from "react-dom";
 import "./App.css";
-import useTone, { ToneType } from "./useTone";
+import Tone, { ToneProps } from "./Tone";
+import Piano from "./Piano";
 import useKeyPress from "./useKeyPress";
-
-interface ToneProps {
-  play: boolean;
-  pitch?: number;
-  type?: ToneType;
-  gain?: number;
-}
-
-function Tone(props): React.SFC<ToneProps> {
-  useTone(props.play, props.type, props.pitch, props.gain);
-  return null;
-}
+import playStateReducer from "./playStateReducer";
 
 interface PlayButtonProps {
   playing: boolean;
@@ -52,21 +42,6 @@ function VolumeControl(props): React.SFC<VolumeControlProps> {
   );
 }
 
-function playStateReducer(state, action) {
-  if (action.isPlaying === true) {
-    return {
-      ...state,
-      [action.key]: true
-    };
-  } else if (action.isPlaying === false) {
-    return {
-      ...state,
-      [action.key]: false
-    };
-  }
-  return state;
-}
-
 const initialPlayingState = {
   all: false,
   v1: false,
@@ -92,7 +67,7 @@ const App = () => {
   const pressingG = useKeyPress("g");
   const pressingH = useKeyPress("h");
 
-  const tones: ToneProps = [
+  const tones: ToneProps[] = [
     {
       playing: playingState.v1 || pressingA,
       type: "square",
@@ -139,6 +114,7 @@ const App = () => {
 
   return (
     <div>
+      <Piano />
       <input
         type="range"
         min="1"
