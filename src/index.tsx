@@ -16,7 +16,7 @@ function PlayButton(props): React.SFC<PlayButtonProps> {
     <button
       className={`play-button${props.playing ? ' on' : ''}`}
       onClick={() => props.setPlaying(!props.playing)}>
-      {props.children || 'Play/Pause'}
+      <span>Play/Pause</span>
       {props.keyName && ` (${props.keyName})`}
     </button>
   );
@@ -41,15 +41,7 @@ function VolumeControl(props): React.SFC<VolumeControlProps> {
   );
 }
 
-const initialPlayingState = {
-  all: false,
-  v1: false,
-  v2: false,
-  v3: false,
-  v4: false,
-  v5: false,
-  v6: false
-};
+const initialPlayingState = [false, false, false, false, false, false];
 
 const App = () => {
   const [pitch, setPitch] = React.useState(200);
@@ -68,46 +60,46 @@ const App = () => {
 
   const tones: ToneProps[] = [
     {
-      playing: playingState.v1 || pressingA,
+      playing: playingState[0] || pressingA,
       type: 'square',
       pitch: pitch * 0.5,
+      gain,
+      id: 0
+    },
+    {
+      playing: playingState[1] || pressingS,
+      type: 'square',
+      pitch: pitch * 0.667,
       gain,
       id: 1
     },
     {
-      playing: playingState.v2 || pressingS,
+      playing: playingState[2] || pressingD,
       type: 'square',
-      pitch: pitch * 0.667,
+      pitch,
       gain,
       id: 2
     },
     {
-      playing: playingState.v3 || pressingD,
+      playing: playingState[3] || pressingF,
       type: 'square',
-      pitch,
+      pitch: pitch * 1.333,
       gain,
       id: 3
     },
     {
-      playing: playingState.v4 || pressingF,
+      playing: playingState[4] || pressingG,
       type: 'square',
-      pitch: pitch * 1.333,
+      pitch: pitch * 1.667,
       gain,
       id: 4
     },
     {
-      playing: playingState.v5 || pressingG,
-      type: 'square',
-      pitch: pitch * 1.667,
-      gain,
-      id: 5
-    },
-    {
-      playing: playingState.v6 || pressingH,
+      playing: playingState[5] || pressingH,
       type: 'square',
       pitch: pitch * 2,
       gain,
-      id: 6
+      id: 5
     }
   ];
 
@@ -131,40 +123,35 @@ const App = () => {
         />
       ))}
       <PlayButton
-        playing={playingState.v1}
-        setPlaying={isPlaying => dispatch({ key: 'v1', isPlaying })}
+        playing={playingState[0]}
+        setPlaying={isPlaying => dispatch({ keyIndex: 0, isPlaying })}
         keyName="A"
       />
       <PlayButton
-        playing={playingState.v2}
-        setPlaying={isPlaying => dispatch({ key: 'v2', isPlaying })}
+        playing={playingState[1]}
+        setPlaying={isPlaying => dispatch({ keyIndex: 1, isPlaying })}
         keyName="S"
       />
       <PlayButton
-        playing={playingState.v3}
-        setPlaying={isPlaying => dispatch({ key: 'v3', isPlaying })}
+        playing={playingState[2]}
+        setPlaying={isPlaying => dispatch({ keyIndex: 2, isPlaying })}
         keyName="D"
       />
       <PlayButton
-        playing={playingState.v4}
-        setPlaying={isPlaying => dispatch({ key: 'v4', isPlaying })}
+        playing={playingState[3]}
+        setPlaying={isPlaying => dispatch({ keyIndex: 3, isPlaying })}
         keyName="F"
       />
       <PlayButton
-        playing={playingState.v5}
-        setPlaying={isPlaying => dispatch({ key: 'v5', isPlaying })}
+        playing={playingState[4]}
+        setPlaying={isPlaying => dispatch({ keyIndex: 4, isPlaying })}
         keyName="G"
       />
       <PlayButton
-        playing={playingState.v6}
-        setPlaying={isPlaying => dispatch({ key: 'v6', isPlaying })}
+        playing={playingState[5]}
+        setPlaying={isPlaying => dispatch({ keyIndex: 5, isPlaying })}
         keyName="H"
       />
-      <PlayButton
-        playing={playingState.all}
-        setPlaying={isPlaying => dispatch({ key: 'all', isPlaying })}>
-        Play/Pause All
-      </PlayButton>
       <div style={{ marginTop: 80 }}>
         <VolumeControl volume={gain} setVolume={setGain} />
       </div>

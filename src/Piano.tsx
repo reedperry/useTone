@@ -5,18 +5,6 @@ import playStateReducer from './playStateReducer';
 
 const toneType: ToneType = 'square';
 
-// Maybe this could be a simple boolean[] since piano keys are a fixed known set
-const initialPlayState = {
-  A1: false,
-  'B♭1': false,
-  B1: false,
-  C2: false,
-  'D♭1': false,
-  D2: false,
-  'E♭1': false,
-  E2: false
-};
-
 const keys = [
   { name: 'A1', freq: 55 },
   { name: 'B♭1', freq: 58.27047 },
@@ -31,8 +19,22 @@ const keys = [
   { name: 'G2', freq: 97.99886 },
   { name: 'A♭2', freq: 103.8262 },
   { name: 'A2', freq: 110.0 },
-  { name: 'B♭2', freq: 116.5409 }
+  { name: 'B♭2', freq: 116.5409 },
+  { name: 'B2', freq: 123.4708 },
+  { name: 'C3', freq: 130.8128 },
+  { name: 'D♭3', freq: 138.5913 },
+  { name: 'D3', freq: 146.8324 },
+  { name: 'E♭3', freq: 155.5635 },
+  { name: 'E3', freq: 164.8138 },
+  { name: 'F3', freq: 174.6141 },
+  { name: 'G♭3', freq: 184.9972 },
+  { name: 'G3', freq: 195.9977 },
+  { name: 'A♭3', freq: 207.6523 },
+  { name: 'A3', freq: 220 },
+  { name: 'B♭3', freq: 233.0819 }
 ];
+
+const initialPlayState = new Array(keys.length).fill(false);
 
 interface PianoNote {
   keyName: string;
@@ -52,7 +54,7 @@ const Piano: React.SFC = () => {
   // Keys themselves never change, unless we're only keeping a subset at a given time, or changing the toneType?
   const notes: PianoNote[] = keys.map((key, i) => ({
     keyName: key.name,
-    playing: playState[key.name],
+    playing: playState[i],
     type: toneType,
     pitch: key.freq,
     id: i
@@ -70,15 +72,11 @@ const Piano: React.SFC = () => {
       ))}
       {notes.map(note => (
         <div
+          className={`piano-key${note.playing ? ' on' : ''}`}
           key={note.id}
-          style={{
-            padding: 10,
-            border: '1px solid gray',
-            background: note.playing ? 'lightgray' : 'white'
-          }}
-          onMouseEnter={() => dispatch({ key: note.keyName, isPlaying: true })}
+          onMouseEnter={() => dispatch({ keyIndex: note.id, isPlaying: true })}
           onMouseLeave={() =>
-            dispatch({ key: note.keyName, isPlaying: false })
+            dispatch({ keyIndex: note.id, isPlaying: false })
           }>
           <span>{note.keyName}</span>
         </div>

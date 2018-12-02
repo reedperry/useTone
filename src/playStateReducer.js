@@ -1,23 +1,12 @@
-export interface PlayState {
-  [key: string]: boolean;
-}
+export type PlayState = boolean[];
 
 export interface PlayAction {
-  key: string;
+  keyIndex: number;
   isPlaying: boolean;
 }
 
 export default function playStateReducer(state: PlayState, action: PlayAction) {
-  if (action.isPlaying === true) {
-    return {
-      ...state,
-      [action.key]: true
-    };
-  } else if (action.isPlaying === false) {
-    return {
-      ...state,
-      [action.key]: false
-    };
-  }
-  return state;
+  const newState = state.slice();
+  newState.splice(action.keyIndex, 1, action.isPlaying);
+  return newState;
 }
