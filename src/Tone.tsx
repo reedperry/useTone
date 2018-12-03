@@ -1,6 +1,5 @@
-import * as React from "react";
-import Tone, { ToneProps } from "./Tone";
-import useTone, { ToneType } from "./useTone";
+import * as React from 'react';
+import useTone, { ToneType } from './useTone';
 
 export interface ToneProps {
   play: boolean;
@@ -9,9 +8,9 @@ export interface ToneProps {
   gain?: number;
 }
 
-function Tone(props): React.SFC<ToneProps> {
+const Tone: React.FunctionComponent<ToneProps> = props => {
   useTone(props.play, props.type, props.pitch, props.gain);
   return null;
-}
+};
 
 export default Tone;

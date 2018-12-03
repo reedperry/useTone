@@ -1,25 +1,28 @@
-import * as React from "react";
+import * as React from 'react';
 
 export default function useKeyPress(key: string) {
   const [pressed, setPressed] = React.useState(false);
 
   React.useEffect(
     () => {
-      const keyDown = document.body.addEventListener("keydown", e => {
+      const onKeyDown: EventListener = (e: KeyboardEvent) => {
         if (e.key === key) {
           setPressed(true);
         }
-      });
+      }
 
-      const keyUp = document.body.addEventListener("keyup", e => {
+      const onKeyUp: EventListener = (e: KeyboardEvent) => {
         if (e.key === key) {
           setPressed(false);
         }
-      });
+      }
+
+      document.body.addEventListener('keydown', onKeyDown);
+      document.body.addEventListener('keyup', onKeyUp);
 
       return () => {
-        document.body.removeEventListener(keyDown);
-        document.body.removeEventListener(keyUp);
+        document.body.removeEventListener('keyup', onKeyDown);
+        document.body.removeEventListener('keydown', onKeyUp);
       };
     },
     [key]

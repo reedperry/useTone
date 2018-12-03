@@ -1,17 +1,19 @@
 import * as React from 'react';
 import { render } from 'react-dom';
 import './App.css';
-import Tone, { ToneProps } from './Tone';
+import Tone from './Tone';
+import { ToneType } from './useTone';
 import Piano from './Piano';
 import useKeyPress from './useKeyPress';
 import playStateReducer from './playStateReducer';
 
 interface PlayButtonProps {
+  keyName: string;
   playing: boolean;
   setPlaying: (playing: boolean) => void;
 }
 
-function PlayButton(props): React.SFC<PlayButtonProps> {
+const PlayButton: React.FunctionComponent<PlayButtonProps> = props => {
   return (
     <button
       className={`play-button${props.playing ? ' on' : ''}`}
@@ -27,7 +29,7 @@ interface VolumeControlProps {
   setVolume: (volume: number) => void;
 }
 
-function VolumeControl(props): React.SFC<VolumeControlProps> {
+const VolumeControl: React.FunctionComponent<VolumeControlProps> = props => {
   return (
     <input
       type="range"
@@ -36,7 +38,7 @@ function VolumeControl(props): React.SFC<VolumeControlProps> {
       max="0.5"
       step="0.01"
       value={props.volume}
-      onChange={e => props.setVolume(e.target.value)}
+      onChange={e => props.setVolume(Number.parseInt(e.target.value))}
     />
   );
 }
@@ -58,7 +60,7 @@ const App = () => {
   const pressingG = useKeyPress('g');
   const pressingH = useKeyPress('h');
 
-  const tones: ToneProps[] = [
+  const tones = [
     {
       playing: playingState[0] || pressingA,
       type: 'square',
@@ -111,13 +113,13 @@ const App = () => {
         min="1"
         max="1000"
         value={pitch}
-        onChange={e => setPitch(e.target.value)}
+        onChange={e => setPitch(Number.parseInt(e.target.value))}
       />
       {tones.map(tone => (
         <Tone
           key={tone.id}
-          play={playingState.all || tone.playing}
-          type={tone.type}
+          play={tone.playing}
+          type={tone.type as ToneType}
           pitch={tone.pitch}
           gain={tone.gain}
         />

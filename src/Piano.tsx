@@ -44,7 +44,7 @@ interface PianoNote {
   id: number;
 }
 
-const Piano: React.SFC = () => {
+const Piano: React.FunctionComponent = () => {
   const [playState, dispatch] = React.useReducer(
     playStateReducer,
     initialPlayState

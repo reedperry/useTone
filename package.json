@@ -1,12 +1,12 @@
 {
-  "name": "useoscillator",
+  "name": "use-tone",
   "version": "0.1.0",
   "private": true,
   "main": "src/index.tsx",
   "dependencies": {
-    "react": "16.7.0-alpha.2 - next",
-    "react-dom": "16.7.0-alpha.2 - next",
-    "react-scripts-ts": "^2.13.0"
+    "react": "16.7.0-alpha.2",
+    "react-dom": "16.7.0-alpha.2",
+    "react-scripts-ts": "3.1.0"
   },
   "scripts": {
     "start": "react-scripts-ts start",
@@ -17,9 +17,9 @@
   "devDependencies": {
     "@types/jest": "^22.1.3",
     "@types/node": "^9.4.6",
-    "@types/react": "16.0.38",
-    "@types/react-dom": "16.0.4",
-    "typescript": "^2.7.2"
+    "@types/react": "16.7.11",
+    "@types/react-dom": "16.0.11",
+    "typescript": "^3.2.1"
   },
   "keywords": [],
   "description": ""
