@@ -2,7 +2,6 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import './App.css';
 import Tone from './Tone';
-import { ToneType } from './useTone';
 import Piano from './Piano';
 import useKeyPress from './useKeyPress';
 import playStateReducer from './playStateReducer';
@@ -120,7 +119,7 @@ const App = () => {
         <Tone
           key={tone.id}
           play={tone.playing}
-          type={tone.type as ToneType}
+          type={tone.type as OscillatorType}
           pitch={tone.pitch}
           gain={tone.gain}
         />

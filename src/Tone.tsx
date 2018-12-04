@@ -1,10 +1,10 @@
 import * as React from 'react';
-import useTone, { ToneType } from './useTone';
+import useTone from './useTone';
 
 export interface ToneProps {
   play: boolean;
   pitch?: number;
-  type?: ToneType;
+  type?: OscillatorType;
   gain?: number;
 }
 

@@ -1,9 +1,8 @@
 import * as React from 'react';
-import { ToneType } from './useTone';
 import Tone from './Tone';
 import playStateReducer from './playStateReducer';
 
-const toneType: ToneType = 'square';
+const toneType: OscillatorType = 'square';
 
 const keys = [
   { name: 'A1', freq: 55 },
@@ -39,7 +38,7 @@ const initialPlayState = new Array(keys.length).fill(false);
 interface PianoNote {
   keyName: string;
   playing: boolean;
-  type: ToneType;
+  type: OscillatorType;
   pitch: number;
   id: number;
 }
