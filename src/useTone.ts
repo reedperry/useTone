@@ -8,27 +8,26 @@ export default function useTone(
   frequency: number = 440,
   gain: number = 0.5
 ) {
-  const gainNode = React.useRef(null);
-  const osc = React.useRef(null);
-  const audioContext = React.useRef(null);
+  const audioContext = React.useRef(new (AudioContext || (window as any).webkitAudioContext)());
+  const gainNode = React.useRef(audioContext.current.createGain());
+  const osc = React.useRef(audioContext.current.createOscillator());
 
   React.useEffect(() => {
-    audioContext.current = new (window.AudioContext ||
-      window.webkitAudioContext)();
-    gainNode.current = audioContext.current.createGain();
+    // audioContext.current = new (window.AudioContext ||
+    //   (window as any).webkitAudioContext)();
+    // gainNode.current = audioContext.current.createGain();
     gainNode.current.connect(audioContext.current.destination);
-    const oscillator = audioContext.current.createOscillator();
-    oscillator.frequency.value = frequency;
-    oscillator.type = type;
-    oscillator.start(0);
-
-    osc.current = oscillator;
+    // const oscillator = audioContext.current.createOscillator();
+    osc.current.frequency.value = frequency;
+    osc.current.type = type;
+    osc.current.start(0);
 
     return () => {
       osc.current.stop(0);
       osc.current.disconnect();
     };
-  }, []);
+  },
+  []);
 
   React.useEffect(
     () => {

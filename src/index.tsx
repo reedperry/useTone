@@ -17,12 +17,13 @@ const PlayButton: React.FunctionComponent<PlayButtonProps> = props => {
   return (
     <button
       className={`play-button${props.playing ? ' on' : ''}`}
-      onClick={() => props.setPlaying(!props.playing)}>
+      onClick={() => props.setPlaying(!props.playing)}
+    >
       <span>Play/Pause</span>
       {props.keyName && ` (${props.keyName})`}
     </button>
   );
-}
+};
 
 interface VolumeControlProps {
   volume: number;
@@ -38,10 +39,10 @@ const VolumeControl: React.FunctionComponent<VolumeControlProps> = props => {
       max="0.5"
       step="0.01"
       value={props.volume}
-      onChange={e => props.setVolume(Number.parseInt(e.target.value))}
+      onChange={e => props.setVolume(Number.parseInt(e.target.value, 10))}
     />
   );
-}
+};
 
 const initialPlayingState = [false, false, false, false, false, false];
 
@@ -113,7 +114,7 @@ const App = () => {
         min="1"
         max="1000"
         value={pitch}
-        onChange={e => setPitch(Number.parseInt(e.target.value))}
+        onChange={e => setPitch(Number.parseInt(e.target.value, 10))}
       />
       {tones.map(tone => (
         <Tone

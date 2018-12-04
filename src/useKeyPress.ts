@@ -9,13 +9,13 @@ export default function useKeyPress(key: string) {
         if (e.key === key) {
           setPressed(true);
         }
-      }
+      };
 
       const onKeyUp: EventListener = (e: KeyboardEvent) => {
         if (e.key === key) {
           setPressed(false);
         }
-      }
+      };
 
       document.body.addEventListener('keydown', onKeyDown);
       document.body.addEventListener('keyup', onKeyUp);

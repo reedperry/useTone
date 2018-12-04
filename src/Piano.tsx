@@ -77,7 +77,8 @@ const Piano: React.FunctionComponent = () => {
           onMouseEnter={() => dispatch({ keyIndex: note.id, isPlaying: true })}
           onMouseLeave={() =>
             dispatch({ keyIndex: note.id, isPlaying: false })
-          }>
+          }
+        >
           <span>{note.keyName}</span>
         </div>
       ))}
