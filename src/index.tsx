@@ -107,7 +107,9 @@ const App = () => {
 
   return (
     <div>
-      <PianoKeyboard />
+      <div style={{marginBottom: 50}}>
+        <PianoKeyboard />
+      </div>
       <input
         type="range"
         min="1"

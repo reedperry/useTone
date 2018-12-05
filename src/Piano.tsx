@@ -29,7 +29,24 @@ export const keys = [
   { name: 'G3', freq: 195.9977 },
   { name: 'A♭3', freq: 207.6523, black: true },
   { name: 'A3', freq: 220 },
-  { name: 'B♭3', freq: 233.0819, black: true }
+  { name: 'B♭3', freq: 233.0819, black: true },
+  { name: 'B3', freq: 246.9417 },
+  { name: 'C4', freq: 261.6256 },
+  { name: 'D♭4', freq: 277.1826, black: true },
+  { name: 'D4', freq: 293.6648 },
+  { name: 'E♭4', freq: 311.127, black: true },
+  { name: 'E4', freq: 329.6276 },
+  { name: 'F4', freq: 349.2282 },
+  { name: 'G♭4', freq: 369.9944, black: true },
+  { name: 'G4', freq: 391.9954 },
+  { name: 'A♭4', freq: 415.3047, black: true },
+  { name: 'A4', freq: 440 },
+  { name: 'B♭4', freq: 466.1638, black: true },
+  { name: 'B4', freq: 493.8833 },
+  { name: 'C5', freq: 523.2511 },
+  { name: 'D♭5', freq: 554.3653, black: true },
+  { name: 'D5', freq: 587.3295 },
+  { name: 'E♭5', freq: 622.254, black: true }
 ];
 
 const notes: PianoNote[] = keys.map((key, i) => ({
