@@ -2,7 +2,7 @@ import * as React from 'react';
 import { render } from 'react-dom';
 import './App.css';
 import Tone from './Tone';
-import Piano from './Piano';
+import PianoKeyboard from './PianoKeyboard';
 import useKeyPress from './useKeyPress';
 import playStateReducer from './playStateReducer';
 
@@ -107,7 +107,7 @@ const App = () => {
 
   return (
     <div>
-      <Piano />
+      <PianoKeyboard />
       <input
         type="range"
         min="1"

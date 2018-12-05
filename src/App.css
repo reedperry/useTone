@@ -19,13 +19,22 @@ button.play-button.on {
   box-shadow: none;
 }
 
-.piano .piano-key {
+.piano-key {
+  display: inline-block;
+  width: 30px;
+  height: 200px;
   background: #fff;
   border: 1px solid gray;
   color: #222;
   padding: 5px;
 }
 
-.piano .piano-key.on {
+.piano-key.black {
+  background: #000;
+  color: #ddd;
+  height: 100px;
+}
+
+.piano-key.on {
   background: #bbb;
 }
