@@ -1,6 +1,6 @@
 import * as React from 'react';
 import Tone from './Tone';
-import playStateReducer from './playStateReducer';
+import playStateReducer, { PlayActionType } from './playStateReducer';
 
 const toneType: OscillatorType = 'square';
 
@@ -73,9 +73,9 @@ const Piano: React.FunctionComponent = () => {
         <div
           className={`piano-key${note.playing ? ' on' : ''}`}
           key={note.id}
-          onMouseEnter={() => dispatch({ keyIndex: note.id, isPlaying: true })}
+          onMouseEnter={() => dispatch({ type: PlayActionType.SET_ONE, keyIndex: note.id, isPlaying: true })}
           onMouseLeave={() =>
-            dispatch({ keyIndex: note.id, isPlaying: false })
+            dispatch({ type: PlayActionType.SET_ONE, keyIndex: note.id, isPlaying: false })
           }
         >
           <span>{note.keyName}</span>

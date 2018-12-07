@@ -3,8 +3,9 @@ import { render } from 'react-dom';
 import './App.css';
 import Tone from './Tone';
 import PianoKeyboard from './PianoKeyboard';
+import PianoPlayer from './PianoPlayer';
 import useKeyPress from './useKeyPress';
-import playStateReducer from './playStateReducer';
+import playStateReducer, { PlayActionType } from './playStateReducer';
 
 interface PlayButtonProps {
   keyName: string;
@@ -110,6 +111,9 @@ const App = () => {
       <div style={{marginBottom: 50}}>
         <PianoKeyboard />
       </div>
+      <div style={{marginBottom: 50}}>
+        <PianoPlayer />
+      </div>
       <input
         type="range"
         min="1"
@@ -128,32 +132,32 @@ const App = () => {
       ))}
       <PlayButton
         playing={playingState[0]}
-        setPlaying={isPlaying => dispatch({ keyIndex: 0, isPlaying })}
+        setPlaying={isPlaying => dispatch({ type: PlayActionType.SET_ONE, keyIndex: 0, isPlaying })}
         keyName="A"
       />
       <PlayButton
         playing={playingState[1]}
-        setPlaying={isPlaying => dispatch({ keyIndex: 1, isPlaying })}
+        setPlaying={isPlaying => dispatch({ type: PlayActionType.SET_ONE, keyIndex: 1, isPlaying })}
         keyName="S"
       />
       <PlayButton
         playing={playingState[2]}
-        setPlaying={isPlaying => dispatch({ keyIndex: 2, isPlaying })}
+        setPlaying={isPlaying => dispatch({ type: PlayActionType.SET_ONE, keyIndex: 2, isPlaying })}
         keyName="D"
       />
       <PlayButton
         playing={playingState[3]}
-        setPlaying={isPlaying => dispatch({ keyIndex: 3, isPlaying })}
+        setPlaying={isPlaying => dispatch({ type: PlayActionType.SET_ONE, keyIndex: 3, isPlaying })}
         keyName="F"
       />
       <PlayButton
         playing={playingState[4]}
-        setPlaying={isPlaying => dispatch({ keyIndex: 4, isPlaying })}
+        setPlaying={isPlaying => dispatch({ type: PlayActionType.SET_ONE, keyIndex: 4, isPlaying })}
         keyName="G"
       />
       <PlayButton
         playing={playingState[5]}
-        setPlaying={isPlaying => dispatch({ keyIndex: 5, isPlaying })}
+        setPlaying={isPlaying => dispatch({ type: PlayActionType.SET_ONE, keyIndex: 5, isPlaying })}
         keyName="H"
       />
       <div style={{ marginTop: 80 }}>
