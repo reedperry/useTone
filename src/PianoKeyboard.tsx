@@ -20,9 +20,20 @@ const PianoKeyboard: React.FunctionComponent = () => {
             black: key.black
           })}
           key={key.name}
-          onMouseEnter={() => dispatch({ type: PlayActionType.SET_ONE, keyIndex: i, isPlaying: true })}
-          onMouseLeave={() => dispatch({ type: PlayActionType.SET_ONE, keyIndex: i, isPlaying: false })}
-        >
+          onMouseEnter={() =>
+            dispatch({
+              type: PlayActionType.SET_ONE,
+              keyIndex: i,
+              isPlaying: true
+            })
+          }
+          onMouseLeave={() =>
+            dispatch({
+              type: PlayActionType.SET_ONE,
+              keyIndex: i,
+              isPlaying: false
+            })
+          }>
           <span>{key.name}</span>
         </div>
       ))}

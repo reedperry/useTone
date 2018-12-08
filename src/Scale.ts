@@ -3,8 +3,8 @@ export type Scale = Interval[];
 export const H: Interval = 1;
 export const W: Interval = 2;
 
-const major: Scale = [W, W, H, W, W, W, H];
-const minor: Scale = [W, H, W, W, H, W, W];
+export const major: Scale = [W, W, H, W, W, W, H];
+export const minor: Scale = [W, H, W, W, H, W, W];
 const numPianoKeys = 43; // for now...
 
 export function layoutScale(root: number, scale: Scale): number[] {
@@ -29,6 +29,3 @@ export function layoutScale(root: number, scale: Scale): number[] {
 
   return fullScale.filter(keyIndex => keyIndex < numPianoKeys);
 }
-
-console.log(layoutScale(0, major));
-console.log(layoutScale(0, minor));
