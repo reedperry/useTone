@@ -26,8 +26,8 @@ export default function playStateReducer(state: PlayState, action: PlayAction) {
       return newState;
     case PlayActionType.SET_MULTIPLE:
       return state.map((playing, i) => {
-        // TS makes us do this check inside the loop - need to avoid this, and
-        // also only do these type of checks in dev
+        // TS makes us do this check inside the loop - probably should avoid
+        // this, and also only do these type of checks in dev
         if (!action.keys) {
           throw new Error(
             '`keys` property is required for SET_MULTIPLE action type'
