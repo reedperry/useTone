@@ -2,18 +2,20 @@ import * as React from 'react';
 import Piano, { keys } from './Piano';
 import playStateReducer, { PlayActionType } from './playStateReducer';
 import { major, layoutScale } from './Scale';
+import { randomArp } from 'arpeggiator';
 
 const initialPlayState = new Array(keys.length).fill(false);
 
 const scale = layoutScale(3, major);
-
-console.log('scale keys are:', scale);
+const arp = randomArp(scale, 8);
 
 const PianoPlayer: React.FunctionComponent = () => {
+  const [playing, setPlaying] = React.useState(false);
   const [playState, dispatch] = React.useReducer(
     playStateReducer,
     initialPlayState
   );
+  const [sequenceIndex, setSequenceIndex] = React.useState(0);
   const [rootNoteKey, setRootNoteKey] = React.useState(3);
   const [previousRootNoteKey, setPreviousRootNoteKey] = React.useState(0);
   const timer = React.useRef<NodeJS.Timer | null>(null);
@@ -28,7 +30,7 @@ const PianoPlayer: React.FunctionComponent = () => {
       dispatch({
         type: PlayActionType.SET_ONE,
         keyIndex: rootNoteKey,
-        isPlaying: true
+        isPlaying: playing
       });
       return () => {
         dispatch({
@@ -38,20 +40,20 @@ const PianoPlayer: React.FunctionComponent = () => {
         });
       };
     },
-    [rootNoteKey, previousRootNoteKey]
+    [rootNoteKey, previousRootNoteKey, playing]
   );
 
   React.useEffect(
     () => {
       const playingKeys: number[] = [];
-      playState.forEach((playing, i) => {
-        if (playing) {
+      playState.forEach((keyIsPlaying, i) => {
+        if (keyIsPlaying) {
           playingKeys.push(i);
         }
       });
 
       if (
-        playState.some(playing => !!playing && playingKeys.length > 1) &&
+        playState.some(isPlaying => !!isPlaying && playingKeys.length > 1) &&
         !timer.current
       ) {
         timer.current = setTimeout(() => {
@@ -60,10 +62,16 @@ const PianoPlayer: React.FunctionComponent = () => {
             keyIndex: playingKeys[1],
             isPlaying: false
           });
+
+          if (sequenceIndex === arp.length - 1) {
+            setSequenceIndex(0);
+          } else {
+            setSequenceIndex(sequenceIndex + 1);
+          }
+
           timer.current = null;
           setTimeout(() => {
-            const nextKey =
-              scale[Math.floor(Math.random() * (scale.length - 1) + 1)];
+            const nextKey = arp[sequenceIndex];
             dispatch({
               type: PlayActionType.SET_ONE,
               keyIndex: nextKey,
@@ -73,7 +81,7 @@ const PianoPlayer: React.FunctionComponent = () => {
         }, 200);
       }
     },
-    [playState]
+    [playState, sequenceIndex]
   );
 
   // React.useEffect(
@@ -104,7 +112,7 @@ const PianoPlayer: React.FunctionComponent = () => {
 
   return (
     <div className="piano-player">
-      <div>Click one of these to kick off a (really basic) auto player!</div>
+      <button onClick={() => setPlaying(!playing)}>Start/Stop</button>
       <div>
         <p>Change Bass Note</p>
         <button
