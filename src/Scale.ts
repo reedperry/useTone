@@ -1,3 +1,4 @@
+import { keys } from './Piano';
 export type Interval = number;
 export type Scale = Interval[];
 export const H: Interval = 1;
@@ -5,7 +6,7 @@ export const W: Interval = 2;
 
 export const major: Scale = [W, W, H, W, W, W, H];
 export const minor: Scale = [W, H, W, W, H, W, W];
-const numPianoKeys = 43; // for now...
+const numPianoKeys = keys.length;
 
 export function layoutScale(root: number, scale: Scale): number[] {
   const scaleSpread = scale.reduce((total, interval) => {
@@ -20,9 +21,9 @@ export function layoutScale(root: number, scale: Scale): number[] {
   }
 
   const fullScale = repeatedScale.reduce(
-    (keys, interval, i) => {
-      keys.push(keys[i] + interval);
-      return keys;
+    (scaleKeys, interval, i) => {
+      scaleKeys.push(scaleKeys[i] + interval);
+      return scaleKeys;
     },
     [root]
   );
