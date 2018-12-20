@@ -8,12 +8,12 @@ export const major: Scale = [W, W, H, W, W, W, H];
 export const minor: Scale = [W, H, W, W, H, W, W];
 const numPianoKeys = keys.length;
 
-export function layoutScale(root: number, scale: Scale): number[] {
+export function layoutScale(root: number, scale: Scale, range: number = numPianoKeys): number[] {
   const scaleSpread = scale.reduce((total, interval) => {
     return total + interval;
   }, 0);
 
-  const repeats = Math.ceil(numPianoKeys / scaleSpread);
+  const repeats = Math.ceil(range / scaleSpread);
 
   let repeatedScale = scale;
   for (let i = 1; i < repeats; i++) {
@@ -28,5 +28,5 @@ export function layoutScale(root: number, scale: Scale): number[] {
     [root]
   );
 
-  return fullScale.filter(keyIndex => keyIndex < numPianoKeys);
+  return fullScale.filter(keyIndex => keyIndex < root + range);
 }
