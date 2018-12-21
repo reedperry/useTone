@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Piano, { keys } from './Piano';
 import playStateReducer, { PlayActionType } from './playStateReducer';
-import { major, layoutScale } from './Scale';
+import { major, layoutScale } from './scale';
 import { randomArp } from 'arpeggiator';
 
 const initialPlayState = new Array(keys.length).fill(false);
