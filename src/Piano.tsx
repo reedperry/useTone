@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Tone from './Tone';
 
-const toneType: OscillatorType = 'square';
+const toneType: OscillatorType = 'sawtooth';
 
 export const keys = [
   { name: 'A', freq: 27.500000000000000 },
@@ -114,7 +114,7 @@ interface PianoPlayerProps {
 
 const PianoPlayer: React.FunctionComponent<PianoPlayerProps> = props => {
   return (
-    <div className="piano-player">
+    <div>
       {notes.map((note, i) => (
         <Tone
           key={note.id}

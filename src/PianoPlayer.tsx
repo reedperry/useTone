@@ -5,9 +5,9 @@ import { major, layoutScale } from './Scale';
 import { randomArp } from 'arpeggiator';
 
 const initialPlayState = new Array(keys.length).fill(false);
-
 const scale = layoutScale(27, major, 24);
-const arp = randomArp(scale, 8);
+let arp: number[];
+generateNewArpeggio();
 
 const PianoPlayer: React.FunctionComponent = () => {
   const [playing, setPlaying] = React.useState(false);
@@ -72,18 +72,23 @@ const PianoPlayer: React.FunctionComponent = () => {
     [playState, sequenceIndex, playing]
   );
 
+  let playingKey = null;
+  const playingKeyIndex = playState.findIndex(isKeyPlaying => !!isKeyPlaying);
+  if (playingKeyIndex > -1) {
+    playingKey = keys[playingKeyIndex];
+  }
   return (
     <div className="piano-player">
       <button onClick={() => setPlaying(!playing)}>Start/Stop</button>
-      {keys.map((key, i) => (
-        <span key={key.name} style={{ marginRight: 3, marginLeft: 3 }}>
-          <label>{key.name}</label>
-          <input type="checkbox" readOnly={true} checked={playState[i]} />
-        </span>
-      ))}
+      <button onClick={generateNewArpeggio}>Generate Arpeggio</button>
+      <span>{' '}{playingKey ? playingKey.name : ' '}</span>
       <Piano playNotes={playState} />
     </div>
   );
 };
+
+function generateNewArpeggio() {
+  arp = randomArp(scale, 8);
+}
 
 export default PianoPlayer;
