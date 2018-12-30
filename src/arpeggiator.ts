@@ -1,6 +1,4 @@
 /**
- * TODO Maybe this should guarantee using everything in `notes` at least once?
- * 
  * Generate a random arpeggio of a given length, from a list of possible notes
  * @param notes The notes to select from
  * @param length The total length of the generated arpeggio
@@ -28,6 +26,23 @@ export function ascendingArp(notes: number[], length: number): number[] {
 export function descendingArp(notes: number[], length: number): number[] {
   const descendingNotes = notes.slice().sort((a, b) => a - b).reverse();
   return repeatingSequence(descendingNotes, length);
+}
+
+// This is about as simple as it gets, should be improved
+export function hillArp(notes: number[], length: number): number[] {
+  const ascendingNotes = notes.slice().sort((a, b) => a - b);
+  if (ascendingNotes.length > length * 0.5 + 1) {
+    ascendingNotes.length = length * 0.5 + 1;
+  }
+  const hillNotes = ascendingNotes.concat(ascendingNotes.slice().reverse().slice(1));
+  return repeatingSequence(hillNotes, length);
+}
+
+export enum ArpType {
+  ASCENDING,
+  DESCENDING,
+  HILL,
+  RANDOM
 }
 
 /**
