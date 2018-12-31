@@ -38,6 +38,8 @@ export function hillArp(notes: number[], length: number): number[] {
   return repeatingSequence(hillNotes, length);
 }
 
+export type Arpeggio = number[];
+
 export enum ArpType {
   ASCENDING,
   DESCENDING,

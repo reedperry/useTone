@@ -7,68 +7,26 @@ import {
   ascendingArp,
   descendingArp,
   hillArp,
-  randomArp
+  randomArp,
+  Arpeggio
 } from 'arpeggiator';
-
-const ArpSelector: React.FunctionComponent<{
-  arpType: ArpType;
-  onChange: (arpType: ArpType) => void;
-}> = props => (
-  <div>
-    <label>
-      <input
-        type="radio"
-        value={ArpType.RANDOM}
-        checked={props.arpType === ArpType.RANDOM}
-        onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
-      />
-      Random
-    </label>
-    <label>
-      <input
-        type="radio"
-        value={ArpType.ASCENDING}
-        checked={props.arpType === ArpType.ASCENDING}
-        onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
-      />
-      Ascending
-    </label>
-    <label>
-      <input
-        type="radio"
-        value={ArpType.DESCENDING}
-        checked={props.arpType === ArpType.DESCENDING}
-        onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
-      />
-      Descending
-    </label>
-    <label>
-      <input
-        type="radio"
-        value={ArpType.HILL}
-        checked={props.arpType === ArpType.HILL}
-        onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
-      />
-      Hill
-    </label>
-  </div>
-);
 
 const initialPlayState = new Array(keys.length).fill(false);
 const scale = layoutScale(27, major, 24);
-let arp: number[];
-generateNewArpeggio();
 
 const PianoPlayer: React.FunctionComponent = () => {
-  const [playing, setPlaying] = React.useState(false);
+  const [playing, setPlaying] = React.useState<boolean>(false);
   const [playState, dispatch] = React.useReducer(
     playStateReducer,
     initialPlayState
   );
+  const [arp, setArp] = React.useState<Arpeggio>(generateNewArpeggio());
   const [sequenceIndex, setSequenceIndex] = React.useState(0);
   const nextKey = React.useRef<number>(arp[sequenceIndex]);
   const timer = React.useRef<NodeJS.Timer | null>(null);
   const [arpType, setArpType] = React.useState(ArpType.RANDOM);
+
+  const arpNotesDisplay = arp.map(noteIndex => keys[noteIndex].name).join(' ');
 
   React.useEffect(
     () => {
@@ -130,10 +88,11 @@ const PianoPlayer: React.FunctionComponent = () => {
   }
   return (
     <div className="piano-player">
-      <button onClick={() => generateNewArpeggio(arpType)}>
+      <button onClick={() => setArp(generateNewArpeggio(arpType))}>
         Generate Arpeggio
       </button>
       <ArpSelector arpType={arpType} onChange={setArpType} />
+      <div>Current arpeggio: {arpNotesDisplay}</div>
       <button onClick={() => setPlaying(!playing)}>Start/Stop</button>
       <span> {playingKey ? playingKey.name : ' '}</span>
       <Piano playNotes={playState} />
@@ -141,22 +100,68 @@ const PianoPlayer: React.FunctionComponent = () => {
   );
 };
 
-function generateNewArpeggio(arpType: ArpType = ArpType.RANDOM) {
+function ArpSelector(props: {
+  arpType: ArpType;
+  onChange: (arpType: ArpType) => void;
+}) {
+  return (
+    <div>
+      <label>
+        <input
+          type="radio"
+          value={ArpType.RANDOM}
+          checked={props.arpType === ArpType.RANDOM}
+          onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
+        />
+        Random
+      </label>
+      <label>
+        <input
+          type="radio"
+          value={ArpType.ASCENDING}
+          checked={props.arpType === ArpType.ASCENDING}
+          onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
+        />
+        Ascending
+      </label>
+      <label>
+        <input
+          type="radio"
+          value={ArpType.DESCENDING}
+          checked={props.arpType === ArpType.DESCENDING}
+          onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
+        />
+        Descending
+      </label>
+      <label>
+        <input
+          type="radio"
+          value={ArpType.HILL}
+          checked={props.arpType === ArpType.HILL}
+          onChange={e => props.onChange(Number.parseInt(e.target.value, 10))}
+        />
+        Hill
+      </label>
+    </div>
+  );
+}
+
+function generateNewArpeggio(arpType: ArpType = ArpType.RANDOM): Arpeggio {
   switch (arpType) {
     case ArpType.RANDOM:
-      arp = randomArp(scale, 8);
+      return randomArp(scale, 8);
       break;
     case ArpType.ASCENDING:
-      arp = ascendingArp(scale, 8);
+      return  ascendingArp(scale, 8);
       break;
     case ArpType.DESCENDING:
-      arp = descendingArp(scale, 8);
+      return  descendingArp(scale, 8);
       break;
     case ArpType.HILL:
-      arp = hillArp(scale, 8);
+      return  hillArp(scale, 8);
       break;
     default:
-    // no changes
+    throw new Error('Unsupported ArpType: ' + arpType);
   }
 }
 
