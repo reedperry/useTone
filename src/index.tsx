@@ -9,7 +9,7 @@ const App = () => {
   const [gain, setGain] = React.useState<number>(0.15);
 
   return (
-    <div>
+    <div className="app">
       <div style={{marginBottom: 50}}>
         <PianoKeyboard />
       </div>

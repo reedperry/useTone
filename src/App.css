@@ -6,6 +6,14 @@ html {
   font-size: 10px;
 }
 
+.app {
+  font-size: 1.6rem;
+}
+
+.buffer-small {
+  margin: 10px;
+}
+
 button.play-button {
   padding: 10px;
   margin: 5px;
@@ -42,20 +50,24 @@ button.play-button.on {
   border: 1px solid gray;
   color: #222;
   padding: 5px;
-  box-shadow: inset 0 -4px 2px 0px #555; 
+  box-shadow: inset 0 -4px 2px 0px #555;
 }
 
 .piano-key.black {
   background: #000;
   color: #ddd;
   height: 50px;
-  box-shadow: inset 0 -4px 3px 0px #ccc; 
+  box-shadow: inset 0 -4px 3px 0px #ccc;
 }
 
 .piano-key.on {
-  box-shadow: inset 0 5px 3px 3px #ccc; 
+  box-shadow: inset 0 5px 3px 3px #ccc;
 }
 
 .piano-key.black.on {
   box-shadow: none;
+}
+
+.volume-control {
+  transform: rotateZ(-90deg);
 }

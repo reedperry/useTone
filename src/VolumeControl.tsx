@@ -5,11 +5,15 @@ interface VolumeControlProps {
   setVolume: (volume: number) => void;
 }
 
+/**
+ * A VolumeControl renders a simple range input that displays its current value
+ * and reports changes
+ */
 const VolumeControl: React.FunctionComponent<VolumeControlProps> = props => {
   return (
     <input
       type="range"
-      style={{ transform: 'rotateZ(-90deg)' }}
+      className="volume-control"
       min="0"
       max="0.5"
       step="0.01"

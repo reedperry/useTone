@@ -86,14 +86,15 @@ const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
   if (playingKeyIndex > -1) {
     playingKey = keys[playingKeyIndex];
   }
+
   return (
     <div className="piano-player">
-      <button onClick={() => setArp(generateNewArpeggio(arpType))}>
+      <button onClick={() => setArp(generateNewArpeggio(arpType))} className="buffer-small">
         Generate Arpeggio
       </button>
       <ArpSelector arpType={arpType} onChange={setArpType} />
-      <div>Current arpeggio: {arpNotesDisplay}</div>
-      <button onClick={() => setPlaying(!playing)}>Start/Stop</button>
+      <div className="buffer-small">Current arpeggio: {arpNotesDisplay}</div>
+      <button onClick={() => setPlaying(!playing)} className="buffer-small">Start/Stop</button>
       <span> {playingKey ? playingKey.name : ' '}</span>
       <Piano playNotes={playState} gain={props.gain} />
     </div>
