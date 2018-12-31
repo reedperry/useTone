@@ -14,7 +14,7 @@ import {
 const initialPlayState = new Array(keys.length).fill(false);
 const scale = layoutScale(27, major, 24);
 
-const PianoPlayer: React.FunctionComponent = () => {
+const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
   const [playing, setPlaying] = React.useState<boolean>(false);
   const [playState, dispatch] = React.useReducer(
     playStateReducer,
@@ -95,7 +95,7 @@ const PianoPlayer: React.FunctionComponent = () => {
       <div>Current arpeggio: {arpNotesDisplay}</div>
       <button onClick={() => setPlaying(!playing)}>Start/Stop</button>
       <span> {playingKey ? playingKey.name : ' '}</span>
-      <Piano playNotes={playState} />
+      <Piano playNotes={playState} gain={props.gain} />
     </div>
   );
 };

@@ -110,6 +110,7 @@ interface PianoNote {
 
 interface PianoPlayerProps {
   playNotes: boolean[];
+  gain: number;
 }
 
 const PianoPlayer: React.FunctionComponent<PianoPlayerProps> = props => {
@@ -121,6 +122,7 @@ const PianoPlayer: React.FunctionComponent<PianoPlayerProps> = props => {
           play={props.playNotes[i]}
           type={note.type}
           pitch={note.pitch}
+          gain={props.gain}
         />
       ))}
     </div>

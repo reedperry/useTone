@@ -37,7 +37,7 @@ const PianoKeyboard: React.FunctionComponent = () => {
           <span>{key.name}</span>
         </div>
       ))}
-      <Piano playNotes={playState} />
+      <Piano playNotes={playState} gain={0.25} />
     </div>
   );
 };
