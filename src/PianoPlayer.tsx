@@ -10,6 +10,7 @@ import {
   randomArp,
   Arpeggio
 } from 'arpeggiator';
+import ArpeggioViewer from './ArpeggioViewer';
 
 const initialPlayState = new Array(keys.length).fill(false);
 const scale = layoutScale(27, major, 24);
@@ -25,8 +26,6 @@ const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
   const nextKey = React.useRef<number>(arp[sequenceIndex]);
   const timer = React.useRef<NodeJS.Timer | null>(null);
   const [arpType, setArpType] = React.useState(ArpType.RANDOM);
-
-  const arpNotesDisplay = arp.map(noteIndex => keys[noteIndex].name).join(' ');
 
   React.useEffect(
     () => {
@@ -93,7 +92,7 @@ const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
         Generate Arpeggio
       </button>
       <ArpSelector arpType={arpType} onChange={setArpType} />
-      <div className="buffer-small">Current arpeggio: {arpNotesDisplay}</div>
+      <ArpeggioViewer arp={arp} />
       <button onClick={() => setPlaying(!playing)} className="buffer-small">Start/Stop</button>
       <span> {playingKey ? playingKey.name : ' '}</span>
       <Piano playNotes={playState} gain={props.gain} />

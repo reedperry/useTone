@@ -71,3 +71,16 @@ button.play-button.on {
 .volume-control {
   transform: rotateZ(-90deg);
 }
+
+.arpeggio-viewer-box {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border-left: 1px solid #aaa;
+  border-top: 1px solid #aaa;
+  background-color: #eee;
+}
+
+.arpeggio-viewer-box.arpeggio-viewer-note {
+  background-color: #5a5;
+}
