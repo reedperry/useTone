@@ -79,6 +79,7 @@ button.play-button.on {
   border-left: 1px solid #aaa;
   border-top: 1px solid #aaa;
   background-color: #eee;
+  font-size: 0.8rem;
 }
 
 .arpeggio-viewer-box.arpeggio-viewer-note {

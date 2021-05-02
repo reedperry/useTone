@@ -28,6 +28,7 @@ const ArpeggioViewer: React.FunctionComponent<{ arp: Arpeggio }> = props => {
       {rows.map((noteRow, noteIndex) => {
         return (
           <div key={`${noteIndex}`} className="arpeggio-viewer-row">
+            <div className="arpeggio-viewer-box"><span>{keys[noteIndex].name}</span></div>
             {noteRow.map((_, stepIndex) => {
               if (adjustedArp[stepIndex] === rows.length - 1 - noteIndex) {
                 return (

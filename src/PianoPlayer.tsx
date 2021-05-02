@@ -14,6 +14,9 @@ import ArpeggioViewer from './ArpeggioViewer';
 
 const initialPlayState = new Array(keys.length).fill(false);
 const scale = layoutScale(27, major, 24);
+const tempo = 90;
+// 90 beats per minute, eighth notes
+const noteDuration = (1000 * 60) / 90 / 8;
 
 const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
   const [playing, setPlaying] = React.useState<boolean>(false);
@@ -61,7 +64,7 @@ const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
             });
 
             timer.current = null;
-          }, 150);
+          }, noteDuration);
 
           dispatch({
             type: PlayActionType.SET_ONE,
