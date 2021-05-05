@@ -4,18 +4,24 @@ import './App.css';
 import PianoKeyboard from './PianoKeyboard';
 import PianoPlayer from './PianoPlayer';
 import VolumeControl from './VolumeControl';
+import TempoControl from './TempoControl';
 import { Schedulerx, Measure } from './schedulerx';
 
 const App = () => {
+  const [userInteracted, setUserInteracted] = React.useState<boolean>(false);
   const [gain, setGain] = React.useState<number>(0.15);
+  const [tempo, setTempo] = React.useState<number>(70);
 
   return (
     <div className="app">
+      {!userInteracted && <div className="start-audio-control"><button onClick={() => setUserInteracted(true)}>Allow Audio!</button></div>}
+      {userInteracted && (
+        <React.Fragment>
       <div style={{marginBottom: 50}}>
         <PianoKeyboard />
       </div>
       <div style={{marginBottom: 50}}>
-        <PianoPlayer gain={gain} />
+        <PianoPlayer gain={gain} tempo={tempo} />
       </div>
       <div style={{ marginTop: 80 }}>
         <VolumeControl volume={gain} setVolume={setGain} />
@@ -26,6 +32,17 @@ const App = () => {
           <span>{gain}</span>
         </div>
       </div>
+      <div style={{ marginTop: 80 }}>
+        <TempoControl tempo={tempo} setTempo={setTempo} />
+      </div>
+      <div style={{ marginLeft: 200 }}>
+        <div>
+          <label>Tempo: </label>
+          <span>{tempo}</span>
+        </div>
+      </div>
+      </React.Fragment>
+      )}
     </div>
   );
 };

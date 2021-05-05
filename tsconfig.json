@@ -1,30 +1,27 @@
 {
+  "include": ["src", "types"],
   "compilerOptions": {
-    "outDir": "build/dist",
-    "baseUrl": "src",
     "module": "esnext",
-    "target": "es5",
-    "lib": ["es2018", "dom"],
-    "sourceMap": true,
-    "allowJs": true,
-    "jsx": "react",
+    "target": "esnext",
     "moduleResolution": "node",
-    "rootDir": "src",
+    "jsx": "preserve",
+    "baseUrl": "./",
+    /* paths - import rewriting/resolving */
+    "paths": {
+      // If you configured any Snowpack aliases, add them here.
+      // Add this line to get types for streaming imports (packageOptions.source="remote"):
+      //     "*": [".snowpack/types/*"]
+      // More info: https://www.snowpack.dev/guides/streaming-imports
+    },
+    /* noEmit - Snowpack builds (emits) files, not tsc. */
+    "noEmit": true,
+    /* Additional Options */
+    "strict": true,
+    "skipLibCheck": true,
+    "types": ["mocha", "snowpack-env"],
     "forceConsistentCasingInFileNames": true,
-    "noImplicitReturns": true,
-    "noImplicitThis": true,
-    "noImplicitAny": true,
-    "strictNullChecks": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "noUnusedLocals": false
-  },
-  "exclude": [
-    "node_modules",
-    "build",
-    "scripts",
-    "acceptance-tests",
-    "webpack",
-    "jest",
-    "src/setupTests.ts"
-  ]
+    "resolveJsonModule": true,
+    "allowSyntheticDefaultImports": true,
+    "importsNotUsedAsValues": "error"
+  }
 }

@@ -1,6 +1,6 @@
 import * as React from 'react';
+import type { Arpeggio } from './arpeggiator';
 
-import { Arpeggio } from 'arpeggiator';
 import { keys } from './Piano';
 
 /**

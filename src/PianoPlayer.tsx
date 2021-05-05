@@ -9,16 +9,13 @@ import {
   hillArp,
   randomArp,
   Arpeggio
-} from 'arpeggiator';
+} from './arpeggiator';
 import ArpeggioViewer from './ArpeggioViewer';
 
 const initialPlayState = new Array(keys.length).fill(false);
 const scale = layoutScale(27, major, 24);
-const tempo = 90;
-// 90 beats per minute, eighth notes
-const noteDuration = (1000 * 60) / 90 / 8;
 
-const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
+const PianoPlayer: React.FunctionComponent<{ gain: number, tempo: number }> = props => {
   const [playing, setPlaying] = React.useState<boolean>(false);
   const [playState, dispatch] = React.useReducer(
     playStateReducer,
@@ -27,8 +24,12 @@ const PianoPlayer: React.FunctionComponent<{ gain: number }> = props => {
   const [arp, setArp] = React.useState<Arpeggio>(generateNewArpeggio());
   const [sequenceIndex, setSequenceIndex] = React.useState(0);
   const nextKey = React.useRef<number>(arp[sequenceIndex]);
-  const timer = React.useRef<NodeJS.Timer | null>(null);
+  const timer = React.useRef<number | null>(null);
   const [arpType, setArpType] = React.useState(ArpType.RANDOM);
+
+  // Eighth notes
+  const noteDuration = (1000 * 60) / props.tempo / 8;
+
 
   React.useEffect(
     () => {
