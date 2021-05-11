@@ -9,7 +9,7 @@ const TempoControl: React.FunctionComponent<TempoControlProps> = props => {
   return (
     <input
       type="range"
-      min="1"
+      min="10"
       max="250"
       step="1"
       value={props.tempo}

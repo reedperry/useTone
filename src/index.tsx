@@ -6,11 +6,13 @@ import PianoPlayer from './PianoPlayer';
 import VolumeControl from './VolumeControl';
 import TempoControl from './TempoControl';
 import { Schedulerx, Measure } from './schedulerx';
+import WaveShapeControl from './WaveShapeControl';
 
 const App = () => {
   const [userInteracted, setUserInteracted] = React.useState<boolean>(false);
   const [gain, setGain] = React.useState<number>(0.15);
   const [tempo, setTempo] = React.useState<number>(70);
+  const [waveShape, setWaveShape] = React.useState<OscillatorType>('sine');
 
   return (
     <div className="app">
@@ -21,7 +23,16 @@ const App = () => {
         <PianoKeyboard />
       </div>
       <div style={{marginBottom: 50}}>
-        <PianoPlayer gain={gain} tempo={tempo} />
+        <PianoPlayer gain={gain} tempo={tempo} waveShape={waveShape} />
+      </div>
+      <div style={{ marginTop: 80 }}>
+        <WaveShapeControl waveShape={waveShape} setWaveShape={setWaveShape} />
+      </div>
+      <div style={{ marginLeft: 200 }}>
+        <div>
+          <label>Wave shape: </label>
+          <span>{waveShape}</span>
+        </div>
       </div>
       <div style={{ marginTop: 80 }}>
         <VolumeControl volume={gain} setVolume={setGain} />

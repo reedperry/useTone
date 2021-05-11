@@ -15,7 +15,7 @@ import ArpeggioViewer from './ArpeggioViewer';
 const initialPlayState = new Array(keys.length).fill(false);
 const scale = layoutScale(27, major, 24);
 
-const PianoPlayer: React.FunctionComponent<{ gain: number, tempo: number }> = props => {
+const PianoPlayer: React.FunctionComponent<{ gain: number, tempo: number, waveShape: OscillatorType }> = props => {
   const [playing, setPlaying] = React.useState<boolean>(false);
   const [playState, dispatch] = React.useReducer(
     playStateReducer,
@@ -28,7 +28,7 @@ const PianoPlayer: React.FunctionComponent<{ gain: number, tempo: number }> = pr
   const [arpType, setArpType] = React.useState(ArpType.RANDOM);
 
   // Eighth notes
-  const noteDuration = (1000 * 60) / props.tempo / 8;
+  const noteDuration = (1000 * 60) / props.tempo / 4;
 
 
   React.useEffect(
@@ -99,7 +99,7 @@ const PianoPlayer: React.FunctionComponent<{ gain: number, tempo: number }> = pr
       <ArpeggioViewer arp={arp} />
       <button onClick={() => setPlaying(!playing)} className="buffer-small">Start/Stop</button>
       <span> {playingKey ? playingKey.name : ' '}</span>
-      <Piano playNotes={playState} gain={props.gain} />
+      <Piano playNotes={playState} gain={props.gain} waveShape={props.waveShape} />
     </div>
   );
 };

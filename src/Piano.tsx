@@ -1,7 +1,7 @@
 import * as React from 'react';
 import Tone from './Tone';
 
-const toneType: OscillatorType = 'square';
+const defaultWaveShape: OscillatorType = 'square';
 
 export const keys = [
   { name: 'A', freq: 27.500000000000000 },
@@ -96,14 +96,14 @@ export const keys = [
 
 const notes: PianoNote[] = keys.map((key, i) => ({
   keyName: key.name,
-  type: toneType,
+  // type: toneType,
   pitch: key.freq,
   id: i
 }));
 
 interface PianoNote {
   keyName: string;
-  type: OscillatorType;
+  // type: OscillatorType;
   pitch: number;
   id: number;
 }
@@ -111,6 +111,7 @@ interface PianoNote {
 interface PianoPlayerProps {
   playNotes: boolean[];
   gain: number;
+  waveShape: OscillatorType;
 }
 
 const Piano: React.FunctionComponent<PianoPlayerProps> = props => {
@@ -120,7 +121,7 @@ const Piano: React.FunctionComponent<PianoPlayerProps> = props => {
         <Tone
           key={note.id}
           play={props.playNotes[i]}
-          type={note.type}
+          type={props.waveShape || defaultWaveShape}
           pitch={note.pitch}
           gain={props.gain}
         />
